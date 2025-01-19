@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sidebar</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* Existing styles remain unchanged */
+
+    /* Add styles for sections */
+        /* General Reset */
+        * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      min-height: 100vh;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    
+
+    /* Sidebar Styles */
+    .sidebar {
+      width: 280px;
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 5px;
+      position: fixed;
+      height: 100%;
+      box-shadow: 2px 0 15px rgba(0, 0, 0, 0.2);
+      transition: width 0.3s ease;
+    }
+
+    .sidebar.collapsed {
+      width: 80px;
+    }
+
+    .menu {
+      list-style: none;
+      width: 100%;
+      padding: 0;
+    }
+
+    .menu li {
+      margin: 20px 0;
+    }
+
+    .menu a {
+      text-decoration: none;
+      color: #fff;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      padding: 12px 20px;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+    }
+
+    /* Hide text when sidebar is collapsed */
+    .sidebar.collapsed .menu a span.text {
+      display: none;
+    }
+
+    .menu a:hover {
+      background: #ed536d;
+      transform: translateX(5px);
+    }
+
+    .menu .icon {
+      font-size: 1.5rem;
+      margin-right: 15px;
+      transition: margin-right 0.3s ease;
+    }
+
+    /* When sidebar is collapsed, reduce the margin-right for the icon */
+    .sidebar.collapsed .menu .icon {
+      margin-right: 0;
+    }
+
+    .toggle-btn {
+      align-self: flex-end;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      cursor: pointer;
+      color: #fff;
+    }
+
+    .theme-toggle {
+      font-size: 1.5rem;
+      cursor: pointer;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+
+    .profile {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .profile-pic {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 4px solid #e94560;
+      object-fit: cover;
+    }
+
+    .name {
+      margin-top: 15px;
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    /* Content Styles */
+    .content {
+      margin-left: 280px;
+      padding: 30px;
+      flex: 1;
+      transition: margin-left 0.3s ease;
+    }
+
+    .sidebar.collapsed ~ .content {
+      margin-left: 80px;
+    }
+
+    .greeting {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+
+      .content {
+        margin-left: 0;
+      }
+
+      .sidebar.collapsed {
+        width: 100%;
+      }
+
+      .menu a {
+        padding: 10px;
+      }
+    }
+    /* Profile Styles */
+.profile {
+  text-align: center;
+  margin-bottom: 30px;
+  transition: all 0.3s ease;
+}
+
+.profile-pic {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 4px solid #e94560;
+  object-fit: cover;
+  transition: all 0.3s ease;
+}
+
+.profile .aurora-text {
+  margin-top: 15px;
+  font-size: 1.8rem;
+  font-weight: 600;
+  
+  transition: all 0.3s ease;
+}
+
+/* When sidebar is collapsed */
+.sidebar.collapsed .profile-pic {
+  width: 60px;
+  height: 60px;
+  border-width: 2px;
+}
+
+.sidebar.collapsed .profile .aurora-text {
+  font-size: 1rem;
+  display: none; /* Hide the text when collapsed */
+}
+
+    .aurora-text {
+            font-size: 2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            position: relative;
+            color: transparent;
+            background: linear-gradient(45deg, #ff00cc, #3333ff, #00ffcc, #ffcc00);
+            background-size: 200%;
+            -webkit-background-clip: text;
+            animation: auroraAnimation 4s infinite linear;
+        }
+
+        @keyframes auroraAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+
+        /* From Uiverse.io by alexruix */
+    /* The switch - the box around the slider */
+    .switch {
+      font-size: 17px;
+      position: relative;
+      display: inline-block;
+      width: 3.5em;
+      height: 2em;
+    }
+
+    /* Hide default HTML checkbox */
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    /* The slider */
+    .slider {
+      --background: #28096b;
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--background);
+      transition: .5s;
+      border-radius: 30px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 1.4em;
+      width: 1.4em;
+      border-radius: 50%;
+      left: 10%;
+      bottom: 15%;
+      box-shadow: inset 8px -4px 0px 0px #fff000;
+      background: var(--background);
+      transition: .5s;
+    }
+
+    input:checked + .slider {
+      background-color: #522ba7;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(100%);
+      box-shadow: inset 15px -4px 0px 15px #fff000;
+    }
+/* Home Section Styling */
+
+
+    section {
+      padding: 60px 20px;
+      height: 100vh;
+    }
+
+/* Light mode styles */
+#home {
+ 
+  background: linear-gradient(135deg, #121212, #6f6a6a); /* Aqua blue to deep blue */
+  color: #fdfbfb;
+}
+
+#about {
+  
+  background: linear-gradient(135deg, #121212, #6f6a6a);/* Coral to peach */
+  color: #fdfbfb;
+}
+
+#project {
+  
+  background: linear-gradient(135deg, #121212, #6f6a6a);  /* Purple to blue */
+  color: #fdfbfb;
+}
+
+#contact {
+ 
+  background: linear-gradient(135deg, #121212, #6f6a6a);/* Teal to deep navy */
+  color: #fdfbfb;
+}
+
+/* Dark mode styles */
+body.dark-mode #home {
+  background: linear-gradient(135deg, #1a0081, #b11edd);/* Charcoal to dark gray */
+  color: #fdfbfb; /* Pure white for text */
+}
+
+body.dark-mode #about {
+  background: linear-gradient(135deg, #1a0081, #b11edd);  /* Graphite gray to slate */
+  color: #f1f1f1; /* Light gray for text */
+}
+
+body.dark-mode #project {
+  background: linear-gradient(135deg, #1a0081, #b11edd); /* Blackened gray to steel */
+  color: #e0e0e0; /* Soft gray for text */
+}
+
+body.dark-mode #contact {
+  background: linear-gradient(135deg, #1a0081, #b11edd); /* Deep onyx to dark ash */
+  color: #d9d9d9; /* Subtle light gray for text */
+}
+
+/* Night mode styles */
+body.night-mode #home {
+  background: linear-gradient(135deg, #0b3d91, #002366); /* Midnight blue to deep navy */
+  color: #e6f7ff; /* Light icy blue for text */
+}
+
+body.night-mode #about {
+  background: linear-gradient(135deg, #8b0000, #4b0000); /* Crimson to dark maroon */
+  color: #ffd1dc; /* Soft pink for text */
+}
+
+body.night-mode #project {
+  background: linear-gradient(135deg, #4b0082, #2c0038); /* Indigo to deep plum */
+  color: #f5e6ff; /* Pastel lavender for text */
+}
+
+body.night-mode #contact {
+  background: linear-gradient(135deg, #006400, #013220); /* Forest green to dark emerald */
+  color: #d8ffd8; /* Light mint green for text */
+}
+
+  </style>
+</head>
+<body class="light-mode">
+    <div class="sidebar" id="sidebar">
+      <div class="toggle-btn" onclick="toggleSidebar()">
+        <i class="fas fa-chevron-left"></i>
+      </div>
+      <label class="switch">
+        <input type="checkbox" onchange="toggleTheme()">
+        <span class="slider"></span>
+      </label><br>
+      <div class="profile">
+        <img src="Screenshot 2024-12-26 111556.png" alt="Profile Picture" class="profile-pic">
+        <div class="aurora-text">SNIPPET WIZARD<br><p>~EnjoyCodes~</p></div>
+      </div>
+      <ul class="menu">
+        <li><a href="#home" onclick="scrollToSection(event, 'home')"><span class="icon"><i class="fas fa-home"></i></span><span class="text">Home</span></a></li>
+        <li><a href="#about" onclick="scrollToSection(event, 'about')"><span class="icon"><i class="fas fa-info-circle"></i></span><span class="text">About</span></a></li>
+        <li><a href="#project" onclick="scrollToSection(event, 'project')"><span class="icon"><i class="fas fa-briefcase"></i></span><span class="text">Project</span></a></li>
+        <li><a href="#contact" onclick="scrollToSection(event, 'contact')"><span class="icon"><i class="fas fa-phone-alt"></i></span><span class="text">Contact</span></a></li>
+      </ul>
+    </div>
+    <div class="content">
+      
+      <section id="home" class="section">
+
+        <h1>HOME</h1>
+        <p>Welcome to the Portfolio. Explore and enjoy!</p>
+        <div class="greeting" id="greeting"></div>
+      </section>
+      <section id="about" class="section">
+        <h1>ABOUT</h1>
+        <p>Learn more about me in the About section.</p>
+      </section>
+      <section id="project" class="section">
+        <h1>PROJECT</h1>
+        <p>Here are some of my projects. Take a look!</p>
+      </section>
+      <section id="contact" class="section">
+        <h1>CONTACT</h1>
+        <p>Feel free to reach out to me in the Contact section.</p>
+      </section>
+    </div>
+  
+    <style>
+      
+    </style>
+  
+    <script>
+      function scrollToSection(event, sectionId) {
+        event.preventDefault();
+  
+        // Remove active class from all sections
+        document.querySelectorAll('.section').forEach(section => {
+          section.classList.remove('active');
+        });
+  
+        // Remove active class from all menu items
+        document.querySelectorAll('.menu a').forEach(link => {
+          link.classList.remove('active');
+        });
+  
+        // Add active class to the clicked menu item
+        const clickedLink = event.target.closest('a');
+        clickedLink.classList.add('active');
+  
+        // Add active class to the target section
+        const targetSection = document.getElementById(sectionId);
+        targetSection.classList.add('active');
+  
+        // Scroll to the section smoothly
+        targetSection.scrollIntoView({ behavior: 'smooth' });
+      }
+  
+      function activateHomeSection() {
+        // Activate the "Home" section by default
+        const homeSection = document.getElementById('home');
+        const homeLink = document.querySelector('.menu a[href="#home"]');
+  
+        // Add active classes
+        homeSection.classList.add('active');
+        homeLink.classList.add('active');
+      }
+  
+      // Run this function on page load
+      window.onload = function () {
+        activateHomeSection();
+      };
+  
+      // Display greeting message based on time
+      displayGreeting();
+
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('collapsed');
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle('light-mode');
+      document.body.classList.toggle('dark-mode');
+    }
+
+    function displayGreeting() {
+      const greeting = document.getElementById('greeting');
+      const hours = new Date().getHours();
+      if (hours < 12) {
+        greeting.textContent = "Good Morning! 🌞";
+      } else if (hours < 18) {
+        greeting.textContent = "Good Afternoon! 🌤️";
+      } else {
+        greeting.textContent = "Good Evening! 🌙";
+      }
+    }
+
+    displayGreeting();
+  </script>
+</body>
+</html>
